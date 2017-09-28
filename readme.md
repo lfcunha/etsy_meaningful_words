@@ -12,7 +12,6 @@ The homework assignment involves writing some code against Etsy’s API, parsing
 
 
 
-
 ## Solution:
 
 I used the TF-IDF algorithm to determine the most important (meaningful) words of each store.
@@ -21,9 +20,41 @@ Both give similar results, but not surprisingly, scikit's implementation is 2 or
  
  
  
-My Solution includes both a command line python program, and a jupyer notebook [here]()
+My Solution includes both a command line python program, and a jupyter notebook [here](https://github.com/lfcunha/etsy_meaningful_words/blob/master/notebook.ipynb)
  
  
+## Usage
+ 
+ 1) This program requires >  python3.4
+ 2) install requirements
+ ```bash
+    > pip3 install -r requirements.txt
+```
+ 3) running the program:
+ ```bash
+> python3 run.py [--tfidf scikit|diy [--level 10|20|30|40]]
+```
+ The arguments are optional. Default tfidf to run is the scikit implementation. Default log level is INFO
  
  
+ 4) run tests:
+ ```bash
+    > pytest
+```
+ 
+ 5) If you have any problem running the program locally, you can:
+    1. run the docker container with the provided DockerFile
+        ```bash
+        > docker build . etsy-image
+        > docker run -it --rm --name etsy --entrypoint=/bin/bash etsy-image
+        ```
+        At this point you will be inside the docker container.
+        ```bash
+        > cd /opt/etsy
+        > python run.py [--tfidf scikit|diy [--level 10|20|30|40]]
+        ```
+        
+    2. reachout to me lfcunha @ gmail.com
+    3. and/or visualize the output in the jupyter notebook
+
 

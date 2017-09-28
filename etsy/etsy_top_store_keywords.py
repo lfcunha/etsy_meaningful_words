@@ -102,6 +102,8 @@ class EtsyTermAnalyzes(Etsy):
     def _get_nltk_data():
         nltk.download('punkt')
         nltk.download('wordnet')
+        nltk.download('stopwords')
+        nltk.download('averaged_perceptron_tagger')
 
     def _merge_listings_and_preprocess_tokens(self):
         """ Merge all store listings' text (title and description) and preprocess tokens by:
