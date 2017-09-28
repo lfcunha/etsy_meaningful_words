@@ -2,9 +2,9 @@ import json
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+import numpy as np
 import os
 from pathlib import Path
-import numpy as np
 import pandas as pd
 from time import time
 
