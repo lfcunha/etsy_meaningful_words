@@ -8,6 +8,7 @@ import requests as r
 from etsy import config
 from utils.multi_downloader import AsyncDownloader
 
+
 api_key = config.get('etsy', 'API_KEY')
 
 
@@ -33,9 +34,9 @@ def get_all_stores():
     loop.run_until_complete(downloader.results)  # download all urls asynchronously
 
     for result in _results:
-        for x in result["results"]:
-            if x["listing_active_count"] > 10:
-                _stores[x["shop_name"]] = {"id": x["shop_id"], "active_count": x["listing_active_count"]}
+        for result in result["results"]:
+            if result["listing_active_count"] > 10:
+                _stores[result["shop_name"]] = {"id": result["shop_id"], "active_count": result["listing_active_count"]}
 
     _sorted_stores = OrderedDict(sorted(_stores.items(), key=lambda x: x[1]["active_count"], reverse=True))
 
@@ -62,14 +63,14 @@ def get_store_listings(n, sorted_stores):
         urls[str(store[0])] = store_urls
     # get all listings for each of the top n stores
     stores_listings = defaultdict(list)
-    for s in urls:
+    for url in urls:
         _results, _stores = [], {}
-        downloader = AsyncDownloader(urls[s], _results)
+        downloader = AsyncDownloader(url[url], _results)
         loop = asyncio.get_event_loop()
         loop.run_until_complete(downloader.results)
-        for result in _results:
-            for x in result["results"]:
-                stores_listings[s].append({"title": x["title"], "description": x["description"]})
+        for _result in _results:
+            for result in _result["results"]:
+                stores_listings[url].append({"title": result["title"], "description": result["description"]})
     return stores_listings
 
 

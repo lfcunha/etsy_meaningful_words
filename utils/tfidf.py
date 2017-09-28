@@ -1,8 +1,7 @@
 import math
-import numpy as np
-import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from textblob import TextBlob as tb
+
 
 def tf(word, blob):
     """ calculate term frequency with simple raw count. More advanced schemas could be used, such as binary, term frequency,
@@ -72,10 +71,29 @@ def tfidf_diy(bloblist, _logger=None):
     scores_list = []
     for i, blob in enumerate(bloblist):
         if _logger:
-            _logger.info("Calculating tfidf scores of document {}".format(i + 1))
+            _logger.info("Calculating tfidf scores of document {} of {}".format(i + 1, len(bloblist)))
         scores = {word: tfidf(word, blob, bloblist) for word in blob.words}
         scores_list.append(scores)
     return scores_list
 
 
+def tfidf_scikit(docslist, _logger=None):
+    """Create a matrix of tfidf scores using scikit-learn's implementation
 
+    Args:
+     docslist:
+     _logger (optional): instance of the logger
+
+    Returns:
+         tfidf(np.array): np array of tfidf scores
+         tfidf_vectorizer: TfidfVectorizer (to extracts words)
+    """
+    tokenize = lambda doc: doc.split(" ")  # text was already pre-processed, otherwise it could be done here
+    n_features = 1000  # n of words
+
+    tfidf_vectorizer = TfidfVectorizer(norm='l2', min_df=2, max_df=0.95, use_idf=True, smooth_idf=False,
+                                       sublinear_tf=True, tokenizer=tokenize, max_features=n_features,
+                                       stop_words='english')
+    tfidf = tfidf_vectorizer.fit_transform(docslist)
+
+    return tfidf, tfidf_vectorizer

@@ -2,38 +2,28 @@ from etsy import config
 from etsy.etsy_top_store_keywords import EtsyTermAnalyzes
 import logging
 import sys
-from utils.tfidf import tfidf_diy
 
 
-_logger = logging.getLogger()
+# set up the logger
+_logger = logging.getLogger("logger")
 _logger.setLevel(logging.DEBUG)
-
 ch = logging.StreamHandler(sys.stdout)
 ch.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 ch.setFormatter(formatter)
 _logger.addHandler(ch)
 
+# use a predefined list of store names to analyze
 stores_to_analyze = config.get('etsy', 'STORES_TO_ANALYZE').split(",")
 
-e = EtsyTermAnalyzes()
-#e._stores_to_analyze = stores_to_analyze
+if __name__ == "__main__":
+    # instantiate the Etsy meaningful word analyzer class
+    e = EtsyTermAnalyzes()
+    e.stores_to_analyze = stores_to_analyze
+    e._logger = _logger
+    e._config = config
+    # e.tfidf_method = "diy"  #scikit
 
-
-
-#print(e.listings_text)
-
-e.stores_to_analyze = stores_to_analyze
-#print("BL", e.bloblist)
-
-
-scores_list = tfidf_diy(e.bloblist, _logger)
-
-
-# calculate tfidf scores of each word, using a simple raw count for the tf schema
-for i, scores in enumerate(scores_list):
-
-    sorted_words = sorted(scores.items(), key=lambda x: x[1], reverse=True)
-    for word, score in sorted_words[:5]:
-        _logger.info("\tWord: {}, TF-IDF: {}".format(word, round(score, 5)))
-
+    # get the top n (defined in config) meaningful words for each store
+    e.top_meaningful_words

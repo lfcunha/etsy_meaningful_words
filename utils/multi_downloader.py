@@ -3,6 +3,9 @@ import requests as r
 
 
 class AsyncDownloader(object):
+    """Downloads a list of urls asynchronously, collecting the results in a list within the class
+
+    """
     def __init__(self, urls, results):
         self._results = results
         self._urls = urls
@@ -15,9 +18,6 @@ class AsyncDownloader(object):
     def download(self):
         """ Asynchronously query multiple urls
 
-        Args:
-            urls (list): list of urls to hit
-            results (list): list to collect output of each request
         """
 
         loop = asyncio.get_event_loop()
