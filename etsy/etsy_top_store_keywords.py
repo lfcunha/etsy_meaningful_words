@@ -35,7 +35,8 @@ class Etsy(object):
         Returns:
              list: listings of each store
         """
-        self._logger.info("""Getting Stores' listings""")
+        if self._logger:
+            self._logger.info("""Getting Stores' listings""")
         data_path = os.path.join(os.getcwd(), "data", "listings_text.json")
         if Path(data_path).is_file():
             stores_listings = json.load(open(data_path, "r"))
@@ -94,7 +95,8 @@ class EtsyTermAnalyzes(Etsy):
         else:
             raise Exception("Invalid tfidf method chosen")
 
-        self._logger.info("""\nIt tools {}s to calculate the top words""".format(str(round(time() - start, 3))))
+        if self._logger:
+            self._logger.info("""\nIt tools {}s to calculate the top words""".format(str(round(time() - start, 3))))
 
     @staticmethod
     def _get_nltk_data():
@@ -116,8 +118,8 @@ class EtsyTermAnalyzes(Etsy):
         Returns:
             list(string): a list of strings. Each string is a filtered concatenation of all of the store's listings text
         """
-
-        self._logger.info("""Merging store's listings and tokenize words""")
+        if self._logger:
+            self._logger.info("""Merging store's listings and tokenize words""")
         _ = self.stores_listings
         wnl = WordNetLemmatizer()
         stopwords_dict = {k: None for v, k in enumerate(stopwords.words('english'))}
