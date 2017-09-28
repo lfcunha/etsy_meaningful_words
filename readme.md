@@ -11,6 +11,12 @@ The homework assignment involves writing some code against Etsy’s API, parsing
 5. Write a program to display the results (CLI or Web UI).
 
 
+## Data:
+A listings_text file in the data directory contains the title and description of the top 20 stores with the most listings.
+This data is obtained with the script in utils/get_store_data.py
+Of those 20, a subset of 10 store names to analyzed is defined in the config file. If the listings file is not present, the application will 
+download the dataset. However, note that the defined store names might not all be present in the new dataset.
+
 
 ## Solution:
 
