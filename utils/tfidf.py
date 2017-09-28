@@ -89,7 +89,7 @@ def tfidf_scikit(docslist, _logger=None):
          tfidf_vectorizer: TfidfVectorizer (to extracts words)
     """
     tokenize = lambda doc: doc.split(" ")  # text was already pre-processed, otherwise it could be done here
-    n_features = 1000  # n of words
+    n_features = 10000  # n of words
 
     tfidf_vectorizer = TfidfVectorizer(norm='l2', min_df=2, max_df=0.95, use_idf=True, smooth_idf=False,
                                        sublinear_tf=True, tokenizer=tokenize, max_features=n_features,
