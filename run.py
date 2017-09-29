@@ -28,7 +28,8 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    _logger.setLevel(args.level)
+    if args.level:
+        _logger.setLevel(args.level)
     if args.tfidf and args.tfidf not in ("tfidf", "diy") or args.level and args.level not in (10,20,30,40):
         print("Usage:\n> python3 run.py [--tfidf scikit|diy [--level 10|20|30|40]]")
         sys.exit(0)
@@ -39,7 +40,7 @@ if __name__ == "__main__":
     e.stores_to_analyze = stores_to_analyze
     e._logger = _logger
     e._config = config
-    e.tfidf_method = tfidf_impl  #scikit
+    e.tfidf_method = tfidf_impl  # default = scikit
 
     # get the top n (defined in config) meaningful words for each store
     e.top_meaningful_words
